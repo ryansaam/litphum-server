@@ -37,8 +37,21 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
-    let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
-    res.redirect(uri + '?access_token=' + access_token)
+    let postInfo = {
+      url: 'https://api.spotify.com/v1/me',
+      headers: {
+	"Authoriztion": "Bearer " + access_token
+      },
+      json: true
+    }
+    request.post(postInfo, function(error, response, body) {
+      const route = body.type
+      const current_user_id = body.id
+      console.log(response)
+      console.log(body)
+      let uri = process.env.FRONTEND_URI || `http://localhost:3000/${route}/${current_user_id}`
+      res.redirect(uri + '?access_token=' + access_token)
+    })
   })
 })
 
