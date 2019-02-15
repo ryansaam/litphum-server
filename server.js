@@ -9,11 +9,12 @@ let redirect_uri =
   'http://localhost:8888/callback'
 
 app.get('/login', function(req, res) {
+  const scope = 'user-read-private user-read-email user-top-read'
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: my_client_id,
-      scope: 'user-read-private user-read-email',
+      client_id: process.env.SPOTIFY_CLIENT_ID,
+      scope,
       redirect_uri
     }))
 })
@@ -29,7 +30,7 @@ app.get('/callback', function(req, res) {
     },
     headers: {
       'Authorization': 'Basic ' + (new Buffer(
-        my_client_id + ':' + my_client_secret
+        process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
       ).toString('base64'))
     },
     json: true
