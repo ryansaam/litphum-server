@@ -10,7 +10,7 @@ let redirect_uri =
   'http://localhost:8888/callback'
 
 app.get('/login', function(req, res) {
-  const scope = 'user-read-private user-read-email user-top-read'
+  const scope = 'user-read-private user-read-email user-top-read user-library-read playlist-read-private playlist-read-collaborative'
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
