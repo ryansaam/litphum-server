@@ -46,7 +46,7 @@ app.get('/callback', function(req, res) {
       return response.json()
     })
     .then(data => {
-      let uri = process.env.FRONTEND_URI || `http://localhost:3000/${data.type}/${data.id}`
+      let uri = (process.env.FRONTEND_URI || "http://localhost:3000") + `/${data.type}/${data.id}`
       res.redirect(uri + '?access_token=' + access_token)
     })
   })
